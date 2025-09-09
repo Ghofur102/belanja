@@ -6,8 +6,7 @@ class HomePage extends StatelessWidget {
     Item(
         name: 'Console Game One',
         price: 500,
-        imageProduct:
-            "https://i.postimg.cc/c19zpJ6f/Image-Popular-Product-1.png",
+        imageProduct: "images/console_game.jpg",
         rating: 2.0,
         description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris auctor eleifend mi, nec fringilla diam congue scelerisque.",
@@ -15,8 +14,7 @@ class HomePage extends StatelessWidget {
     Item(
         name: 'Console Game Two',
         price: 200,
-        imageProduct:
-            "https://i.postimg.cc/c19zpJ6f/Image-Popular-Product-1.png",
+        imageProduct: "images/console_game.jpg",
         rating: 3.0,
         description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris auctor eleifend mi, nec fringilla diam congue scelerisque.",
@@ -31,73 +29,89 @@ class HomePage extends StatelessWidget {
       ),
       body: Container(
         margin: EdgeInsets.all(8),
-        child: ListView.builder(
-            padding: EdgeInsets.all(8),
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, '/item', arguments: item);
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  margin: const EdgeInsets.only(bottom: 10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 1.0),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        item.name,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        maxLines: 2,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "\$${item.price}",
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFFFF7643),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Image.network(item.imageProduct,
-                          width: 600, height: 240, fit: BoxFit.contain),
-                      Text(item.description),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child: Text(
-                                    "Stok Tersedia: ${item.stok}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Icon(Icons.star, color: Colors.red),
-                          Text(item.rating.toString()),
-                        ],
-                      )
-                    ],
-                  ),
+        child: GridView.builder(
+          padding: EdgeInsets.all(8),
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            final item = items[index];
+            return InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/item', arguments: item);
+              },
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                margin: const EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black, width: 1.0),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              );
-            }),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item.name,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      maxLines: 2,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "\$${item.price}",
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFFFF7643),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Hero(
+                      tag: 'product-${item.name}',
+                      child: Image.asset(
+                        item.imageProduct,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Icon(
+                            Icons.image_not_supported,
+                          );
+                        },
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(3),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Stok: ${item.stok}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Icon(Icons.star, color: Colors.red),
+                        Text(item.rating.toString()),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 5,
+              childAspectRatio: 0.69),
+        ),
       ),
       bottomNavigationBar: Container(
         height: 50,
