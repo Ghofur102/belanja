@@ -1,4 +1,5 @@
 import 'package:belanja/models/items.dart';
+import 'package:belanja/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -34,77 +35,9 @@ class HomePage extends StatelessWidget {
           itemCount: items.length,
           itemBuilder: (context, index) {
             final item = items[index];
-            return InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, '/item', arguments: item);
-              },
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                margin: const EdgeInsets.only(bottom: 10),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black, width: 1.0),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      item.name,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      maxLines: 2,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "\$${item.price}",
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFFFF7643),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Hero(
-                      tag: 'product-${item.name}',
-                      child: Image.asset(
-                        item.imageProduct,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) {
-                          return const Icon(
-                            Icons.image_not_supported,
-                          );
-                        },
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(3),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Stok: ${item.stok}",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Icon(Icons.star, color: Colors.red),
-                        Text(item.rating.toString()),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            );
+            return ProductCard(item: item, onTap: () => {
+              Navigator.pushNamed(context, '/item', arguments: item),
+            });
           },
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
