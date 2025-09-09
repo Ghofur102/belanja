@@ -1,4 +1,5 @@
 import 'package:belanja/models/items.dart';
+import 'package:belanja/widgets/footer.dart';
 import 'package:belanja/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 
@@ -46,16 +47,7 @@ class HomePage extends StatelessWidget {
               childAspectRatio: 0.69),
         ),
       ),
-      bottomNavigationBar: Container(
-        height: 50,
-        color: Colors.blue,
-        child: const Center(
-          child: Text(
-            'Nama: Muhamad Abdul Ghofur, NIM: 362458302016',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-      ),
+      bottomNavigationBar: Footer(),
     );
   }
 }
